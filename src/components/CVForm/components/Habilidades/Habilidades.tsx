@@ -18,7 +18,7 @@ export default function Habilidades({ habilidades, setHabilidades, habilidad, se
 
     return (
         <>
-            <h2>Habilidades</h2>
+            <h2>Habilidadess</h2>
 
             <label htmlFor="habilidad">
                 habilidad:
