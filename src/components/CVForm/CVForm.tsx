@@ -5,9 +5,11 @@ import type { IExperiencia } from "./components/Experiencia/types";
 import type { IHabilidad } from "./components/Habilidades/types";
 import type { IDatosPersonales } from "./components/DatosPersonales/types";
 import type { IDataCVForm, IProps } from "./types";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ModeloPdf1 from "../ModeloPdf1";
 
 export default function CVForm({ dataCVForm, setDataCVForm }: IProps) {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(1);
     const MAX_STEPS = 3
 
     // Estados para listas
@@ -58,38 +60,37 @@ export default function CVForm({ dataCVForm, setDataCVForm }: IProps) {
     }
 
     return (
-        <form onSubmit={submitHandler}>
-            {step === 0 && (
-                <DatosPersonales setDatosPersonales={setDatosPersonales} datosPersonales={datosPersonales} />
-            )}
+        <form onSubmit={submitHandler} className="w-9/10 flex flex-col h-[95dvh] gap-3 p-3 bg-white justify-between">
+            <div className="flex flex-col gap-4">
+                {step === 0 && (
+                    <DatosPersonales setDatosPersonales={setDatosPersonales} datosPersonales={datosPersonales} />
+                )}
+                {step === 1 && (
+                    <Formacion formacion={formacion} formaciones={formaciones} setFormacion={setFormacion} setFormaciones={setFormaciones} />
+                )}
+                {step === 2 && (
+                    <Experiencia experiencia={experiencia} experiencias={experiencias} setExperiencia={setExperiencia} setExperiencias={setExperiencias} />
+                )}
+                {step === 3 && (
+                    <Habilidades habilidad={habilidad} habilidades={habilidades} setHabilidad={setHabilidad} setHabilidades={setHabilidades} />
+                )}
+            </div>
 
-            {step === 1 && (
-                <Formacion formacion={formacion} formaciones={formaciones} setFormacion={setFormacion} setFormaciones={setFormaciones} />
-            )}
-
-            {step === 2 && (
-                <Experiencia experiencia={experiencia} experiencias={experiencias} setExperiencia={setExperiencia} setExperiencias={setExperiencias} />
-            )}
-
-            {step === 3 && (
-                <Habilidades habilidad={habilidad} habilidades={habilidades} setHabilidad={setHabilidad} setHabilidades={setHabilidades} />
-            )}
-
-            <div style={{ marginTop: 16 }}>
+            <div className="flex gap-3">
                 {step > 0 && (
-                    <button type="button" onClick={prev}>
+                    <button type="button" onClick={prev} className="flex-1 bg-gray-600 text-white rounded p-1">
                         Anterior
                     </button>
                 )}
                 {step < MAX_STEPS && (
-                    <button type="button" onClick={next} style={{ marginLeft: 8 }}>
+                    <button type="button" onClick={next}  className="flex-1 bg-gray-600 text-white rounded p-1">
                         Siguiente
                     </button>
                 )}
                 {step == MAX_STEPS && (
-                    <button type="submit" style={{ marginLeft: 8 }}>
-                        Generar
-                    </button>
+                    <PDFDownloadLink className="flex-1 bg-gray-600 text-white text-center rounded p-1" fileName={"CV " + dataCVForm.datosPersonales.nombres.split(" ")[0]} document={<ModeloPdf1 dataCV={dataCVForm} />}>
+                        Descargar CV
+                    </PDFDownloadLink>
                 )}
             </div>
         </form>

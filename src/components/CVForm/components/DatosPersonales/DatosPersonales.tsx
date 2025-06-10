@@ -14,47 +14,38 @@ export default function datosPersonales({ datosPersonales, setDatosPersonales }:
 
     return (
         <>
-            <h2>Datos Personales</h2>
+            <h2 className="text-2xl text-center">Datos Personales</h2>
 
-            <label htmlFor="nombres">
-                nombres:
-                <input onChange={handleChange} type="text" name="nombres" id="nombres" defaultValue={datosPersonales.nombres} />
-            </label>
-            <label htmlFor="apellidos">
-                apellidos:
-                <input onChange={handleChange} type="text" name="apellidos" id="apellidos" defaultValue={datosPersonales.apellidos} />
-            </label>
-            <label htmlFor="telefono">
-                telefono:
-                {/* 
-                quitar las flechitas del input numerico
-                input::-webkit-outer-spin-button,
-                input::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-                }
-                input[type=number] {
-                -moz-appearance: textfield;
-                }
-                 */}
-                <input onChange={handleChange} type="number" inputMode="tel" name="telefono" id="telefono" defaultValue={datosPersonales.telefono} />
-            </label>
-             <label htmlFor="correo">
-                correo:
-                <input onChange={handleChange} type="email" name="correo" id="correo" defaultValue={datosPersonales.correo} />
-            </label>
-             <label htmlFor="ubicacion">
-                ubicacion:
-                <input onChange={handleChange} type="text" name="ubicacion" id="ubicacion" defaultValue={datosPersonales.ubicacion} />
-            </label>
-            <label htmlFor="direccion">
-                direccion:
-                <input onChange={handleChange} type="text" name="direccion" id="direccion" defaultValue={datosPersonales.direccion} />
-            </label>
-            <label htmlFor="fNacimiento">
-                fNacimiento:
-                <input onChange={handleChange} type="date" name="fNacimiento" id="fNacimiento" defaultValue={datosPersonales.fNacimiento} />
-            </label>
+            <div className="flex flex-col gap-2">
+                <label htmlFor="nombres" className="flex flex-col">
+                    nombres:
+                    <input onChange={handleChange} type="text" name="nombres" id="nombres" defaultValue={datosPersonales.nombres} className="border-gray-400 border outline-black rounded p-1"/>
+                </label>
+                <label htmlFor="apellidos" className="flex flex-col">
+                    apellidos:
+                    <input onChange={handleChange} type="text" name="apellidos" id="apellidos" defaultValue={datosPersonales.apellidos} className="border-gray-400 border outline-black rounded p-1"/>
+                </label>
+                <label htmlFor="telefono" className="flex flex-col">
+                    telefono:
+                    <input onChange={handleChange} type="number" inputMode="tel" name="telefono" id="telefono" defaultValue={datosPersonales.telefono} className="border-gray-400 border outline-black rounded p-1"/>
+                </label>
+                 <label htmlFor="correo" className="flex flex-col">
+                    correo:
+                    <input onChange={handleChange} type="email" name="correo" id="correo" defaultValue={datosPersonales.correo} className="border-gray-400 border outline-black rounded p-1"/>
+                </label>
+                 <label htmlFor="ubicacion" className="flex flex-col">
+                    ubicacion:
+                    <input onChange={handleChange} type="text" name="ubicacion" id="ubicacion" defaultValue={datosPersonales.ubicacion} className="border-gray-400 border outline-black rounded p-1"/>
+                </label>
+                <label htmlFor="direccion" className="flex flex-col">
+                    direccion:
+                    <input onChange={handleChange} type="text" name="direccion" id="direccion" defaultValue={datosPersonales.direccion} className="border-gray-400 border outline-black rounded p-1"/>
+                </label>
+                <label htmlFor="fNacimiento" className="flex flex-col">
+                    fNacimiento:
+                    <input onChange={handleChange} type="date" name="fNacimiento" id="fNacimiento" defaultValue={datosPersonales.fNacimiento} className="border-gray-400 border outline-black rounded p-1"/>
+                </label>
+            </div>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import type { IHabilidad, IProps } from "./types";
-import { type ChangeEventHandler } from "react";
+import { type ChangeEventHandler, type MouseEventHandler } from "react";
 
 export default function Habilidades({ habilidades, setHabilidades, habilidad, setHabilidad }: IProps) {
 
@@ -14,6 +14,12 @@ export default function Habilidades({ habilidades, setHabilidades, habilidad, se
         setHabilidad((prevHabilidad) => {
             return { ...prevHabilidad, [name]: value }
         })
+    }
+
+    const eliminarHabilidad: MouseEventHandler = (e) => {
+        // tomar el id del <li> padre
+        const li = (e.target as HTMLButtonElement).closest("li")
+        setHabilidades(prevHabilidades => prevHabilidades.filter((_, i) => i !== Number(li?.id)))
     }
 
     return (
@@ -41,12 +47,19 @@ export default function Habilidades({ habilidades, setHabilidades, habilidad, se
                 </label>
             </div>
 
-            <button type="button" onClick={addhabilidad}>Agregar Habilidad</button>
-
-            <ul>
+            <button type="button" onClick={addhabilidad} className="flex-1 bg-gray-600 text-white rounded p-1">Agregar Habilidad</button>
+            <hr />
+            <ul className="flex flex-col gap-2">
                 {habilidades.map((Habilidad, i) => {
                     const { habilidad, nivel } = Habilidad
-                    return <li key={i}>{habilidad} {nivel}</li>
+                    return (
+                        <li key={i} id={String(i)} className="flex text-sm justify-between items-center">
+                            <div>
+                                <p>{habilidad}</p>
+                                <p>{nivel}</p>
+                            </div>
+                            <button onClick={eliminarHabilidad} type="button" className="size-5 rounded text-white font-bold bg-red-500">x</button>
+                        </li>)
                 })}
             </ul>
         </>
