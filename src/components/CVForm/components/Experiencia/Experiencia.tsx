@@ -1,8 +1,12 @@
 import moment from "moment";
 import type { IExperiencia, IProps } from "./types";
-import { type ChangeEventHandler, type MouseEventHandler } from "react";
+import { useEffect, type ChangeEventHandler, type MouseEventHandler } from "react";
 
 export default function Experiencia({ experiencias, setExperiencias, experiencia, setExperiencia }: IProps) {
+
+    useEffect(()=>{
+        setExperiencia(experiencias[experiencias.length - 1]??{})
+    },[experiencias, setExperiencia])
 
     const addExperiencia = () => {
         setExperiencias((prevExperiencias: IExperiencia[]) => [...prevExperiencias, experiencia]);
@@ -43,14 +47,14 @@ export default function Experiencia({ experiencias, setExperiencias, experiencia
                     </label>
                 </div>
                 <div className="flex gap-3">
-                    {experiencia.estado == "terminado" && (<label htmlFor="fEgreso" className="flex-1 flex flex-col min-w-0">
-                        fEgreso:
-                        <input name="fEgreso" onChange={handleChange} type="month" id="fEgreso" defaultValue={experiencia.fEgreso} className="border-gray-400 border outline-black rounded p-1"/>
-                    </label>)}
                     <label htmlFor="fIngreso" className="flex-1 flex flex-col min-w-0">
                         fIngreso:
                         <input name="fIngreso" onChange={handleChange} type="month" id="fIngreso" defaultValue={experiencia.fIngreso} className="border-gray-400 border outline-black rounded p-1"/>
                     </label>
+                    {experiencia.estado == "terminado" && (<label htmlFor="fEgreso" className="flex-1 flex flex-col min-w-0">
+                        fEgreso:
+                        <input name="fEgreso" onChange={handleChange} type="month" id="fEgreso" defaultValue={experiencia.fEgreso} className="border-gray-400 border outline-black rounded p-1"/>
+                    </label>)}
                 </div>
                 <label htmlFor="empresa" className="flex flex-col">
                     empresa:
@@ -66,12 +70,12 @@ export default function Experiencia({ experiencias, setExperiencias, experiencia
                     {experiencias.map((experiencia, i) => {
                         const { cargo, estado, fEgreso, fIngreso, empresa, ubicacion } = experiencia
                         const ingreso = moment(fIngreso).format("MMM YYYY")
-                        const egreso = estado == "terminado" ? moment(fEgreso).format("MMM YYYY") : ""
+                        const egreso = estado == "terminado" ? moment(fEgreso).format("MMM YYYY") : "En proceso"
                         return (
                             <li key={i} id={String(i)} className="flex text-sm justify-between items-center">
                                 <div>
                                     <p>{cargo} [{empresa}, {ubicacion}]</p>
-                                    <p className="flex-1 text-xs">{ingreso} {egreso}</p>
+                                    <p className="flex-1 text-xs">{ingreso} - {egreso}</p>
                                 </div>
                                 <button onClick={eliminarExperiencia} type="button" className="size-5 rounded text-white font-bold bg-red-500">x</button>
                             </li>)

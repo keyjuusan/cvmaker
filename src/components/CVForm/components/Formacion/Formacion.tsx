@@ -1,8 +1,13 @@
 import moment from "moment";
 import type { IFormacion, IProps } from "./types";
-import { type ChangeEventHandler, type MouseEventHandler } from "react";
+import { useEffect, type ChangeEventHandler, type MouseEventHandler } from "react";
 
 export default function Formacion({ formaciones, setFormaciones, formacion, setFormacion }: IProps) {
+
+    useEffect(()=>{
+        setFormacion(formaciones[formaciones.length - 1]??{})
+
+    },[formaciones, setFormacion])
 
     const addFormacion = () => {
         setFormaciones((prevFormaciones: IFormacion[]) => [...prevFormaciones, formacion]);
@@ -70,12 +75,12 @@ export default function Formacion({ formaciones, setFormaciones, formacion, setF
                     {formaciones.map((formacion, i) => {
                         const { titulo, estado, fEgreso, fIngreso, institucion, ubicacion } = formacion
                         const ingreso = moment(fIngreso).format("MMM YYYY")
-                        const egreso = estado == "terminado" ? moment(fEgreso).format("MMM YYYY") : ""
+                        const egreso = estado == "terminado" ? moment(fEgreso).format("MMM YYYY") : "En proceso"
                         return (
                             <li key={i} id={String(i)} className="flex text-sm justify-between items-center">
                                 <div>
                                     <p>{titulo} [{institucion}, {ubicacion}]</p>
-                                    <p className="flex-1 text-xs">{ingreso} {egreso}</p>
+                                    <p className="flex-1 text-xs">{ingreso} - {egreso}</p>
                                 </div>
                                 <button onClick={eliminarFormacion} type="button" className="size-5 rounded text-white font-bold bg-red-500">x</button>
                             </li>)

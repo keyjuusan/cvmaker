@@ -9,7 +9,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import ModeloPdf1 from "../ModeloPdf1";
 
 export default function CVForm({ dataCVForm, setDataCVForm }: IProps) {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(3);
     const MAX_STEPS = 3
 
     // Estados para listas
@@ -46,17 +46,11 @@ export default function CVForm({ dataCVForm, setDataCVForm }: IProps) {
 
         setDataCVForm(prevDataCVForm => ({ ...prevDataCVForm, ...dataForm }))
 
-        const prevDatasCVForm = JSON.parse(localStorage.getItem("datasCVForm") ?? "[]")
+        localStorage.setItem("datasCVForm", JSON.stringify(dataForm))
 
-        console.log(prevDatasCVForm)
+        const btnDownloadLink = document.getElementById("pdfDowloadLink") as HTMLAnchorElement;
+        btnDownloadLink.click();
 
-        if (!prevDatasCVForm.length) {
-            localStorage.removeItem("datasCVForm")
-        }
-
-        localStorage.setItem("datasCVForm", JSON.stringify([...prevDatasCVForm, { ...dataForm, id: prevDatasCVForm.length }]))
-
-        console.log("enviando")
     }
 
     return (
@@ -83,14 +77,22 @@ export default function CVForm({ dataCVForm, setDataCVForm }: IProps) {
                     </button>
                 )}
                 {step < MAX_STEPS && (
-                    <button type="button" onClick={next}  className="flex-1 bg-gray-600 text-white rounded p-1">
+                    <button type="button" onClick={next} className="flex-1 bg-gray-600 text-white rounded p-1">
                         Siguiente
                     </button>
                 )}
                 {step == MAX_STEPS && (
-                    <PDFDownloadLink className="flex-1 bg-gray-600 text-white text-center rounded p-1" fileName={"CV " + dataCVForm.datosPersonales.nombres.split(" ")[0]} document={<ModeloPdf1 dataCV={dataCVForm} />}>
-                        Descargar CV
-                    </PDFDownloadLink>
+                    <div className="flex-1">
+                        <button type="submit" className=" w-full bg-gray-600 text-white text-center rounded p-1">Descargar CV</button>
+                        <PDFDownloadLink id="pdfDowloadLink" fileName={"CV " + dataCVForm.datosPersonales.nombres.split(" ")[0]} document={<ModeloPdf1 dataCV={{
+                            datosPersonales: datosPersonales || {},
+                            formaciones: formaciones || [],
+                            experiencias: experiencias || [],
+                            habilidades: habilidades || []
+                        }} />} className="hidden">
+
+                        </PDFDownloadLink>
+                    </div>
                 )}
             </div>
         </form>

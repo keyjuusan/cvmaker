@@ -26,7 +26,7 @@ function App() {
     const dataStorage = localStorage.getItem("datasCVForm")
     if(dataStorage){
       const parsedData = JSON.parse(dataStorage)
-      setDataCVForm(prev=>({...prev,...parsedData[parsedData.length - 1]}))
+      setDataCVForm(prev=>({...prev,...parsedData}))
     }
   },[])
 
